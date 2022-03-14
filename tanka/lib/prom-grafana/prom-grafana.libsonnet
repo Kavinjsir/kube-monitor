@@ -2,6 +2,7 @@ local kp =
   (import 'kube-prometheus/main.libsonnet') +
   // Note that NodePort type services is likely not a good idea for your production use case, it is only used for demonstration purposes here.
   (import 'kube-prometheus/addons/node-ports.libsonnet') +
+  (import 'kube-prometheus/addons/all-namespaces.libsonnet') +
   {
     values+:: {
       common+: {
@@ -27,6 +28,7 @@ local kp =
     //  * assume that `minikube ip` prints "192.168.99.100"
     //  * hard-code the NodePort for each app
     prometheus+: {
+      namespaces: [],
       prometheus+: {
         // Reference info: https://coreos.com/operators/prometheus/docs/latest/api.html#prometheusspec
         spec+: {
