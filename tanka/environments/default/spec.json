@@ -6,7 +6,7 @@
     "namespace": "environments/default/main.jsonnet"
   },
   "spec": {
-    "apiServer": "https://192.168.64.6:8443",
+    "apiServer": "https://127.0.0.1:63430",
     "namespace": "default",
     "resourceDefaults": {},
     "expectVersions": {}
