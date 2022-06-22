@@ -1,0 +1,23 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: jaeger-operator-servicemonitor
+  # Change this to the namespace the Prometheus instance is running in
+  namespace: observability
+  labels:
+    app: jaeger-operator
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      name: jaeger-operator # target gitlab service
+  endpoints:
+    # https://stackoverflow.com/questions/52991038/how-to-create-a-servicemonitor-for-prometheus-operator
+    # https://github.com/kubernetes-sigs/kubebuilder/pull/2065/files
+    - path: /metrics
+      port: https
+      scheme: https
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tlsConfig:
+        insecureSkipVerify: true
