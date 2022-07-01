@@ -1,3 +1,50 @@
+### Deploy monitoring stacks for Ubuntu
+
+### Install local K8s cluster
+
+1. Download & install `minikube`
+
+```shell
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+```
+
+2. Make `Docker` no-root available
+
+```shell
+# https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+sudo usermod -aG docker $USER && newgrp docker
+```
+
+3. Verify minikube: launch a cluster
+
+```shell
+minikube start
+k cluster-info
+```
+
+### Install monitoring stacks (kube-prometheus)
+
+1. Update manifests from `kube-prometheus`
+   Download the manifests to `./kube-prometheus` and following cmds by [Deploy kube-prometheus](https://prometheus-operator.dev/docs/prologue/quick-start/#deploy-kube-prometheus)
+
+2. Wait for monitoring stacks running, then check functionality
+
+```shell
+k port-forward -n monitoring svc/grafana 3000
+k port-forward -n monitoring svc/prometheus-k8s 9090
+```
+
+### TODO: Provision monitoring stacks by `tanka`
+
+1. Install tanka
+
+```shell
+go install github.com/grafana/tanka/cmd/tk@latest
+```
+
+### Install memcached-opeartor
+
 ## Monitoring Stacks for K8s
 
 ### Quick stark by yaml files
