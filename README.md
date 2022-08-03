@@ -45,6 +45,41 @@ go install github.com/grafana/tanka/cmd/tk@latest
 
 ### Install memcached-opeartor
 
+1.  Build and push docker image
+2.  Deploy CRDs & the operator
+3.  Verify if prometheus cover the service for metrics
+    If not, try following debugging step:
+    i) How is the logs of `prometheus-k8s`?
+    ii) If logs indicate the error unadmitted permission to access `/metrics`, check the `clusterrole` for prometheus-k8s.
+    See: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#enable-rbac-rules-for-prometheus-pods
+
+        ```yaml
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: prometheus
+        rules:
+        - apiGroups: [""]
+          resources:
+          - nodes
+          - nodes/metrics
+          - services
+          - endpoints
+          - pods
+          verbs: ["get", "list", "watch"]
+        - apiGroups: [""]
+          resources:
+          - configmaps
+          verbs: ["get"]
+        - apiGroups:
+          - networking.k8s.io
+          resources:
+          - ingresses
+          verbs: ["get", "list", "watch"]
+        - nonResourceURLs: ["/metrics"]
+          verbs: ["get"]
+        ```
+
 ## Monitoring Stacks for K8s
 
 ### Quick stark by yaml files
