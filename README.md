@@ -1,6 +1,19 @@
+# K8s Observability Practices
+
+This repo includes multiple directories. Each directory contains certain practices of observability on k8s.
+
+- jaeger-ops: Quick start of Jaeger operator
+- kops-config: Handson K8s setup on Google Cloud(Without GKE)
+- kube-prometheus: A copy of `manifests/` from [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus#quickstart)
+- kubebuilder-backup: Grafana manifests backup for kubebuilder grafana plugin
+- kubebuilder-grafana-plugin: Draft manifests kubebuilder grafana plugin
+- tanka: A pragmatic approach to customize observability stacks on K8s
+
 ## Monitoring Stacks for K8s
 
 ### Quick stark by yaml files
+
+Go to `kube-prometheus` directory and follow the steps below.
 
 ```
 # Create the namespace and CRDs, and then wait for them to be available before creating the remaining resources
