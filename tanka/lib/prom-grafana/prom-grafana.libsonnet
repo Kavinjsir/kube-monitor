@@ -30,22 +30,6 @@ local kp =
     },
   };
 
-// local ksmconfig = 'spec:
-//   resources:
-//     - groupVersionKind:
-//         group: myteam.io
-//         kind: "Foo"
-//         version: "v1"
-//       metrics:
-//         - name: "uptime"
-//           help: "Foo uptime"
-//           each:
-//             type: Gauge
-//             gauge:
-//               path: [status, uptime]
-// ';
-local ksmconfig = import './kube-state-metrics-config.jsonnet';
-
 { ['00namespace-' + name]: kp.kubePrometheus[name] for name in std.objectFields(kp.kubePrometheus) } +
 { ['0prometheus-operator-' + name]: kp.prometheusOperator[name] for name in std.objectFields(kp.prometheusOperator) } +
 { ['node-exporter-' + name]: kp.nodeExporter[name] for name in std.objectFields(kp.nodeExporter) } +
@@ -62,9 +46,8 @@ local ksmconfig = import './kube-state-metrics-config.jsonnet';
             super.containers[0] {
               args: [
                 '--custom-resource-state-config',
-                ksmconfig.customMetricsConfig,
+                (import './kube-state-metrics-config.jsonnet').customMetricsConfig,
               ] + super.args,
-
             },
           ] + super.containers[1:],
         },
