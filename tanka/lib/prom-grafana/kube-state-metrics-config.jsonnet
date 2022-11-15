@@ -2,16 +2,28 @@
   customMetricsConfig: 'spec:
   resources:
     - groupVersionKind:
-        group: myteam.io
-        kind: "Foo"
-        version: "v1"
+        group: cache.example.com
+        kind: "Memcached"
+        version: "v1alpha1"
       metrics:
-        - name: "uptime"
-          help: "Foo uptime"
+        - name: "status"
+          help: "Memcached status"
           each:
-            type: Gauge
-            gauge:
-              path: [status, uptime,uooo]
+            type: StateSet
+            stateSet:
+              labelName: status
+              labelsFromPath:
+                type:
+                  - type
+              list:
+               - "True"
+               - "False"
+               - Unknown
+              path:
+                - status
+                - conditions
+              valueFrom:
+                - status
 '
 }
 
