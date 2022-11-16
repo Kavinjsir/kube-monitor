@@ -54,4 +54,13 @@ local kp =
       },
     },
   },
+  'kube-state-metrics-clusterRole'+: {
+    rules: [
+      {
+        apiGroups: ["cache.example.com"],
+        resources: ["memcacheds"],
+        verbs: ["list", "watch"],
+      },
+    ] + super.rules,
+  },
 }
